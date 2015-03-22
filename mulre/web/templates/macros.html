@@ -1,0 +1,69 @@
+{% macro new_yarn(tag=None) %}
+    <form action="{{ url_for('yarn.add_yarn') }}" method="POST" enctype="multipart/form-data">
+        <fieldset>
+            <div>
+                <label for="file">그림</label>
+                <input type="file" name="file">
+            </div>
+            <div id="content-form">
+                <label for="content">본문</label>
+                <textarea name="content" placeholder="이야기를 풀어 주세요"></textarea>
+            </div>
+            <div>
+                <label for="tags">태그</label>
+                {% if tag %}
+                    <input name="tags" id="tags" value="{{ tag.name }}" type="text">
+                {% else %}
+                    <input name="tags" id="tags" placeholder="에바 카오신 썰" type="text">
+                {% endif %}
+            </div>
+            <div>
+                <input type="submit" value="작성하기">
+            </div>
+        </fieldset>
+    </form>
+{% endmacro %}
+
+{% macro show_yarn(yarn) %}
+    <article class="yarn">
+        <ul class="metadata">
+            {% if request.remote_addr == yarn.author.remote_addr %}
+                <li class="action">
+                    <a class="dangerous" href="{{ url_for('yarn.delete_yarn', yarn_id=yarn.id) }}">삭제</a>
+                </li>
+            {% endif %}
+            <li class="yarn-id">
+                <a href="{{ url_for('yarn.get_yarn', yarn_id=yarn.id) }}">{{ yarn.id }}</a>
+            </li>
+            <li>
+                {% if yarn.tags %}
+                    {{ list_tags(yarn.tags) }}
+                {% else %}
+                    태그 없음
+                {% endif %}
+            </li>
+        </ul>
+        <pre>{{ yarn.content }}</pre>
+        {% if yarn.filename %}
+            <a href="{{ yarn.get_url() }}">
+                <img src="{{ yarn.get_url() }}">
+            </a>
+        {% endif %}
+    </article>
+{% endmacro %}
+
+{% macro list_yarns(yarns) %}
+    {% for yarn in yarns|reverse %}
+        {{ show_yarn(yarn) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro list_tags(tags) %}
+    <ul class="tags">
+        {% for tag in tags %}
+            <li>
+                <a href="{{ url_for('tag.yarns', tag_name=tag.name) }}">{{ tag.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}

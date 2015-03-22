@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% from 'macros.html' import new_yarn, list_yarns %}
+
+{% block body %}
+    <h2>{{ tag.name }}</h2>
+    {{ new_yarn(tag) }}
+    {{ list_yarns(tag.yarns) }}
+{% endblock %}
