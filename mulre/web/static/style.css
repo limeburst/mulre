@@ -10,6 +10,13 @@ pre {
 a {
     color: black;
 }
+
+header, main {
+    max-width: 590px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 header p, header h1 {
     display: inline-block;
 }
