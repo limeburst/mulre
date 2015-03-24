@@ -50,7 +50,7 @@ def add_yarn():
     return redirect(request.referrer)
 
 
-@bp.route('/<yarn_id>/')
+@bp.route('/<int:yarn_id>/')
 def get_yarn(yarn_id):
     yarn = session.query(Yarn).get(yarn_id)
     if not yarn:
@@ -58,7 +58,7 @@ def get_yarn(yarn_id):
     return render_template('yarn.html', yarn=yarn)
 
 
-@bp.route('/<yarn_id>/delete/')
+@bp.route('/<int:yarn_id>/delete/')
 def delete_yarn(yarn_id):
     yarn = session.query(Yarn).get(yarn_id)
     if not yarn:
