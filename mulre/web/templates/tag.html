@@ -2,7 +2,7 @@
 
 {% from 'macros.html' import new_yarn, list_yarns %}
 
-{% block body %}
+{% block main %}
     <h2>{{ tag.name }}</h2>
     {{ new_yarn(tag) }}
     {{ list_yarns(tag.yarns) }}
