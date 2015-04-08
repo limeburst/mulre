@@ -41,7 +41,7 @@ header p, header h1 {
     vertical-align: middle;
 }
 
-#hot p, #hot ul {
+#random p, #random ul {
     display: inline-block;
 }
 
