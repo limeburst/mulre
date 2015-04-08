@@ -20,13 +20,13 @@
     <p>익명 타임라인</p>
     {% block random_tags %}
         {% from 'macros.html' import list_tags %}
-        {% if tags %}
+        {% if random_tags %}
             <div id="random">
                 <p>
                     <a href="{{ url_for('tag.random') }}">랜덤</a>
                     <a href="{{ url_for('tag.tags') }}">태그</a>:
                 </p>
-                {{ list_tags(tags) }}
+                {{ list_tags(random_tags) }}
             </div>
         {% endif %}
     {% endblock %}

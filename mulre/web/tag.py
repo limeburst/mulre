@@ -23,22 +23,22 @@ def get_random_tags(count=5):
 
 @bp.route('/')
 def tags():
-    tags = get_random_tags()
+    random_tags = get_random_tags()
     all_tags = session.query(Tag).filter(Tag.yarns.any()).order_by(Tag.name).all()
-    return render_template('tags.html', tags=tags, all_tags=all_tags)
+    return render_template('tags.html', random_tags=random_tags, all_tags=all_tags)
 
 
 @bp.route('/random/')
 def random():
-    tags = get_random_tags(1)
-    if tags:
-        return redirect(url_for('tag.yarns', tag_name=tags[0].name))
+    random_tags = get_random_tags(1)
+    if random_tags:
+        return redirect(url_for('tag.yarns', tag_name=random_tags[0].name))
     else:
         return redirect(url_for('user.home'))
 
 
 @bp.route('/<tag_name>/')
 def yarns(tag_name):
-    tags = get_random_tags()
+    random_tags = get_random_tags()
     tag = session.query(Tag).filter_by(name=tag_name).first()
-    return render_template('tag.html', tags=tags, tag=tag)
+    return render_template('tag.html', random_tags=random_tags, tag=tag)

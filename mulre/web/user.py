@@ -21,5 +21,5 @@ def get_user(remote_addr):
 def home():
     """Home."""
     yarns = session.query(Yarn).order_by(Yarn.id).all()
-    tags = get_random_tags()
-    return render_template('home.html', yarns=yarns, tags=tags)
+    random_tags = get_random_tags()
+    return render_template('home.html', yarns=yarns, random_tags=random_tags)
