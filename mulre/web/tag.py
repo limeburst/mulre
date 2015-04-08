@@ -21,6 +21,12 @@ def get_random_tags(count=5):
     return tags
 
 
+@bp.route('/')
+def tags():
+    tags = session.query(Tag).filter(Tag.yarns.any()).order_by(Tag.name).all()
+    return render_template('tags.html', tags=tags)
+
+
 @bp.route('/<tag_name>/')
 def yarns(tag_name):
     tags = get_random_tags()

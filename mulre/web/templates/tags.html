@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% from 'macros.html' import list_tags %}
+
+{% block main %}
+    {% block random_tags %}
+    {% endblock %}
+    <h2>모든 태그</h2>
+    {{ list_tags(tags) }}
+{% endblock %}
