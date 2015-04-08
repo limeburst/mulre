@@ -20,6 +20,6 @@ def get_user(remote_addr):
 @bp.route('/')
 def home():
     """Home."""
-    yarns = session.query(Yarn).all()
+    yarns = session.query(Yarn).order_by(Yarn.id).all()
     tags = get_random_tags()
     return render_template('home.html', yarns=yarns, tags=tags)
