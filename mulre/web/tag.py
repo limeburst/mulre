@@ -2,7 +2,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
-from flask import Blueprint, render_template
+from flask import Blueprint, redirect, render_template, url_for
 from sqlalchemy.sql import func
 
 from ..yarn import Tag
@@ -25,6 +25,15 @@ def get_random_tags(count=5):
 def tags():
     tags = session.query(Tag).filter(Tag.yarns.any()).order_by(Tag.name).all()
     return render_template('tags.html', tags=tags)
+
+
+@bp.route('/random/')
+def random():
+    tags = get_random_tags(1)
+    if tags:
+        return redirect(url_for('tag.yarns', tag_name=tags[0].name))
+    else:
+        return redirect(url_for('user.home'))
 
 
 @bp.route('/<tag_name>/')

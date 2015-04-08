@@ -22,7 +22,9 @@
         {% from 'macros.html' import list_tags %}
         {% if tags %}
             <div id="random">
-                <p>랜덤 태그:</p>
+                <p>
+                    <a href="{{ url_for('tag.random') }}">랜덤</a> 태그:
+                </p>
                 {{ list_tags(tags) }}
             </div>
         {% endif %}
