@@ -18,13 +18,15 @@
         <a href="{{ url_for('user.home') }}">물레</a>
     </h1>
     <p>익명 타임라인</p>
-    {% from 'macros.html' import list_tags %}
-    {% if tags %}
-        <div id="hot">
-            <p>랜덤 태그:</p>
-            {{ list_tags(tags) }}
-        </div>
-    {% endif %}
+    {% block random_tags %}
+        {% from 'macros.html' import list_tags %}
+        {% if tags %}
+            <div id="hot">
+                <p>랜덤 태그:</p>
+                {{ list_tags(tags) }}
+            </div>
+        {% endif %}
+    {% endblock %}
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul class="flashes">
