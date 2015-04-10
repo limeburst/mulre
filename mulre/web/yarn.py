@@ -50,6 +50,24 @@ def add_yarn():
     return redirect(request.referrer)
 
 
+@bp.route('/<int:yarn_id>/', methods=['PUT'])
+def edit_yarn(yarn_id):
+    yarn = session.query(Yarn).get(yarn_id)
+    if not yarn:
+        abort(404)
+    yarn.content = request.form['content']
+    yarn.tags = []
+    for name in set(request.form['tags'].split()):
+        tag = session.query(Tag).filter_by(name=name).first()
+        if not tag:
+            yarn.tags.append(Tag(name=name))
+        else:
+            yarn.tags.append(tag)
+    session.add(yarn)
+    session.commit()
+    return redirect(url_for('yarn.get_yarn', yarn_id=yarn.id))
+
+
 @bp.route('/<int:yarn_id>/')
 def get_yarn(yarn_id):
     yarn = session.query(Yarn).get(yarn_id)
@@ -58,7 +76,15 @@ def get_yarn(yarn_id):
     return render_template('yarn.html', yarn=yarn)
 
 
-@bp.route('/<int:yarn_id>/delete/')
+@bp.route('/<int:yarn_id>/edit/')
+def edit_yarn_form(yarn_id):
+    yarn = session.query(Yarn).get(yarn_id)
+    if not yarn:
+        abort(404)
+    return render_template('edit_yarn_form.html', yarn=yarn)
+
+
+@bp.route('/<int:yarn_id>/', methods=['DELETE'])
 def delete_yarn(yarn_id):
     yarn = session.query(Yarn).get(yarn_id)
     if not yarn:

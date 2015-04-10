@@ -1,27 +1,29 @@
 {% macro new_yarn(tag=None) %}
-    <form action="{{ url_for('yarn.add_yarn') }}" method="POST" enctype="multipart/form-data">
-        <fieldset>
-            <div>
-                <label for="file">그림</label>
-                <input type="file" name="file">
-            </div>
-            <div id="content-form">
-                <label for="content">본문</label>
-                <textarea name="content" placeholder="이야기를 풀어 주세요"></textarea>
-            </div>
-            <div>
-                <label for="tags">태그</label>
-                {% if tag %}
-                    <input name="tags" id="tags" value="{{ tag.name }}" type="text">
-                {% else %}
-                    <input name="tags" id="tags" placeholder="에바 카오신 썰" type="text">
-                {% endif %}
-            </div>
-            <div>
-                <input type="submit" value="작성하기">
-            </div>
-        </fieldset>
-    </form>
+    <div class="forms">
+        <form action="{{ url_for('yarn.add_yarn') }}" method="POST" enctype="multipart/form-data">
+            <fieldset>
+                <div>
+                    <label for="file">그림</label>
+                    <input type="file" name="file">
+                </div>
+                <div id="content-form">
+                    <label for="content">본문</label>
+                    <textarea name="content" placeholder="이야기를 풀어 주세요"></textarea>
+                </div>
+                <div>
+                    <label for="tags">태그</label>
+                    {% if tag %}
+                        <input name="tags" id="tags" value="{{ tag.name }}" type="text">
+                    {% else %}
+                        <input name="tags" id="tags" placeholder="에바 카오신 썰" type="text">
+                    {% endif %}
+                </div>
+                <div>
+                    <input type="submit" value="작성하기">
+                </div>
+            </fieldset>
+        </form>
+    </div>
 {% endmacro %}
 
 {% macro show_yarn(yarn) %}
@@ -29,7 +31,7 @@
         <ul class="metadata">
             {% if request.remote_addr == yarn.author.remote_addr %}
                 <li class="action">
-                    <a class="dangerous" href="{{ url_for('yarn.delete_yarn', yarn_id=yarn.id) }}">삭제</a>
+                    <a class="info" href="{{ url_for('yarn.edit_yarn_form', yarn_id=yarn.id) }}">수정</a>
                 </li>
             {% endif %}
             <li class="yarn-id">

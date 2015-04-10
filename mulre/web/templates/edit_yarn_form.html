@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div class="forms">
+        <form action="{{ url_for('yarn.edit_yarn', yarn_id=yarn.id) }}?__METHOD_OVERRIDE__=PUT" method="POST">
+            <fieldset>
+                <div id="content-form">
+                    <label for="content">본문</label>
+                    <textarea name="content" placeholder="이야기를 풀어 주세요">{{ yarn.content }}</textarea>
+                </div>
+                <div>
+                    <label for="tags">태그</label>
+                    <input name="tags" id="tags" value="
+                {%- for tag in yarn.tags -%}
+                    {% if loop.last %}
+                        {{- tag.name -}}
+                    {% else %}
+                        {{- tag.name + " " -}}
+                    {%- endif -%}
+                {% endfor %}" type="text">
+                </div>
+                <div>
+                    <input type="submit" value="수정하기">
+                </div>
+            </fieldset>
+        </form>
+        <form action="{{ url_for('yarn.delete_yarn', yarn_id=yarn.id) }}?__METHOD_OVERRIDE__=DELETE" method="POST" class="delete-yarn">
+            <fieldset>
+                <input type="submit" value="삭제하기" class="dangerous">
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+
+{% block trailing_javascript %}
+    $('form.delete-yarn').on('submit', function() {
+        return window.confirm("정말 삭제하시겠어요? 되돌릴 수 없어요!");
+    });
+{% endblock %}

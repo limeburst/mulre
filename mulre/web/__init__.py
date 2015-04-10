@@ -6,6 +6,7 @@ from flask import Flask
 
 from . import tag, user, yarn
 from .db import setup_session
+from .util import MethodRewriteMiddleware
 
 
 def create_app(config):
@@ -17,6 +18,7 @@ def create_app(config):
 
     """
     app = Flask(__name__, instance_relative_config=True)
+    app.wsgi_app = MethodRewriteMiddleware(app.wsgi_app)
     app.config.from_pyfile(config)
     setup_session(app)
     app.register_blueprint(user.bp)

@@ -44,5 +44,12 @@
     {% block main %}
     {% endblock %}
 </main>
+{% block javascript_loadings %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+{% endblock %}
+<script>
+    {% block trailing_javascript %}
+    {% endblock %}
+</script>
 </body>
 </html>
