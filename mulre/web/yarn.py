@@ -55,6 +55,8 @@ def edit_yarn(yarn_id):
     yarn = session.query(Yarn).get(yarn_id)
     if not yarn:
         abort(404)
+    if request.remote_addr != yarn.author.remote_addr:
+        abort(401)
     yarn.content = request.form['content']
     yarn.tags = []
     for name in set(request.form['tags'].split()):
@@ -81,6 +83,8 @@ def edit_yarn_form(yarn_id):
     yarn = session.query(Yarn).get(yarn_id)
     if not yarn:
         abort(404)
+    if request.remote_addr != yarn.author.remote_addr:
+        abort(401)
     return render_template('edit_yarn_form.html', yarn=yarn)
 
 
@@ -92,4 +96,6 @@ def delete_yarn(yarn_id):
     if request.remote_addr == yarn.author.remote_addr:
         session.delete(yarn)
         session.commit()
+    else:
+        abort(401)
     return redirect(url_for('user.home'))
