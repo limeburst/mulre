@@ -6,6 +6,7 @@ Use :data:`session` in view functions.
 """
 from flask import current_app, g
 from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
 from werkzeug.local import LocalProxy
 
 from ..orm import Session
@@ -19,7 +20,8 @@ def get_session():
 
     """
     if not hasattr(g, 'session'):
-        engine = create_engine(current_app.config['DATABASE_URL'])
+        engine = create_engine(current_app.config['DATABASE_URL'],
+                               poolclass=NullPool)
         g.session = Session(bind=engine)
     return g.session
 
