@@ -4,5 +4,10 @@
 
 {% block main %}
     {{ new_yarn() }}
-    {{ list_yarns(yarns) }}
+    <div id="stream"></div>
+    <div id="content">
+        <div class="yarn-list">
+            {{ list_yarns(yarns) }}
+        </div>
+    </div>
 {% endblock %}

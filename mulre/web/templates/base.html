@@ -45,6 +45,10 @@
     {% endblock %}
 </main>
 {% block javascript_loadings %}
+    <script src="https://fb.me/react-0.14.8.js"></script>
+    <script src="https://fb.me/react-dom-0.14.8.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script type="text/babel" src="{{ url_for('static', filename='js/stream.js') }}"></script>
 {% endblock %}
 <script>
     {% block trailing_javascript %}
