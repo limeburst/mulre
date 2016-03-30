@@ -26,6 +26,7 @@ setup(
         'SQLAlchemy == 0.9.9',
         'boto == 2.36.0',
         'click == 3.3',
+        'redis == 2.10.5',
     ],
     entry_points={
         'console_scripts': ['mre = mulre.cli:cli'],

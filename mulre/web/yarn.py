@@ -4,11 +4,14 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
+import json
+
 from flask import (Blueprint, abort, flash, redirect, render_template, request,
                    url_for)
 
 from ..yarn import Tag, User, Yarn
 from .db import session
+from .redis import redis
 from .user import get_user
 
 
@@ -47,6 +50,13 @@ def add_yarn():
             yarn.filename = request.files['file'].filename
             yarn.from_blob(request.files['file'].read())
     session.commit()
+    redis.publish('firehose', json.dumps({
+        'content': yarn.content,
+        'filename': yarn.filename,
+        'id': yarn.id,
+        'tags': [tag.name for tag in yarn.tags],
+        'url': yarn.get_url(),
+    }))
     return redirect(request.referrer)
 
 

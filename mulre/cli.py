@@ -31,4 +31,4 @@ def initdb(ctx):
 def run(ctx):
     """Runs a development server."""
     app = create_app(ctx.obj['CONFIG'])
-    app.run()
+    app.run(threaded=True)

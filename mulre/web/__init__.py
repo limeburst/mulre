@@ -4,7 +4,7 @@
 """
 from flask import Flask
 
-from . import tag, user, yarn
+from . import stream, tag, user, yarn
 from .db import setup_session
 from .util import MethodRewriteMiddleware
 
@@ -21,7 +21,8 @@ def create_app(config):
     app.wsgi_app = MethodRewriteMiddleware(app.wsgi_app)
     app.config.from_pyfile(config)
     setup_session(app)
-    app.register_blueprint(user.bp)
+    app.register_blueprint(stream.bp, url_prefix='/streams')
     app.register_blueprint(tag.bp, url_prefix='/tags')
+    app.register_blueprint(user.bp)
     app.register_blueprint(yarn.bp, url_prefix='/yarns')
     return app
