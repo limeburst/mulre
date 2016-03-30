@@ -19,7 +19,7 @@ setup(
     zip_safe=False,
     packages=['mulre', 'mulre.web'],
     package_data={
-        'mulre.web': ['templates/*.*', 'static/*.*']
+        'mulre.web': ['templates/*/*.*', 'static/*/*.*']
     },
     install_requires=[
         'Flask == 0.10.1',
