@@ -43,7 +43,10 @@ class Yarn(Base):
         return self.key.set_contents_from_string(blob)
 
     def get_url(self, expires_in=300):
-        return self.key.generate_url(expires_in)
+        if self.filename:
+            return self.key.generate_url(expires_in)
+        else:
+            return None
 
     __tablename__ = 'yarns'
 
