@@ -24,7 +24,7 @@ setup(
     install_requires=[
         'Flask == 0.10.1',
         'SQLAlchemy == 0.9.9',
-        'boto == 2.36.0',
+        'boto3 == 1.3.0',
         'click == 3.3',
         'redis == 2.10.5',
     ],

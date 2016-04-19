@@ -2,6 +2,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 """
+import boto3
+from botocore.client import Config
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from flask import current_app
@@ -31,20 +33,24 @@ class Yarn(Base):
 
     @property
     def key(self):
-        config = current_app.config
-        c = S3Connection(config['AWS_ACCESS_KEY_ID'], config['AWS_SECRET_KEY'])
-        b = c.get_bucket(config['AWS_S3_BUCKET'], validate=False)
-        k = Key(b)
-        k.key = '{}/{}.{}'.format(self.__tablename__, self.id,
-                                  self.filename.rsplit('.', 1)[1])
-        return k
+        return '{}/{}.{}'.format(self.__tablename__, self.id,
+                                 self.filename.rsplit('.', 1)[1])
 
     def from_blob(self, blob):
-        return self.key.set_contents_from_string(blob)
+        s3 = boto3.resource('s3')
+        o = s3.Object(current_app.config['AWS_S3_BUCKET'], self.key)
+        return o.put(Body=blob)
 
-    def get_url(self, expires_in=300):
+    def get_url(self):
         if self.filename:
-            return self.key.generate_url(expires_in)
+            s3 = boto3.client('s3', config=Config(signature_version='s3v4'))
+            return s3.generate_presigned_url(
+                ClientMethod='get_object',
+                Params={
+                    'Bucket': current_app.config['AWS_S3_BUCKET'],
+                    'Key': self.key,
+                }
+            )
         else:
             return None
 
